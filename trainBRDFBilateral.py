@@ -259,7 +259,8 @@ for epoch in list(range(opt.nepochBRDF, opt.nepochBRDF + opt.nepoch) ):
             inputBatch = torch.cat([imBatch, albedoPreBatch,
                 normalPreBatch, roughPreBatch, depthPreBatch,
                 diffusePreBatch, specularPreBatch ], dim=1)
-
+        
+        # the begining of network
         # Initial Prediction
         x1, x2, x3, x4, x5, x6 = encoder(inputBatch )
 
@@ -275,8 +276,10 @@ for epoch in list(range(opt.nepochBRDF, opt.nepochBRDF + opt.nepoch) ):
         roughBsPred, roughConf = roughBs(imBatch, albedoPred.detach(),
                 0.5*(roughPred+1) )
         roughBsPred = torch.clamp(2 * roughBsPred - 1, -1, 1)
-
+        # output of the depth network
         depthPred = 0.5 * (depthDecoder(imBatch, x1, x2, x3, x4, x5, x6) + 1)
+        # why do depthConf come out?
+        # a output from simple CNN
         depthBsPred, depthConf = depthBs(imBatch, albedoPred.detach(),
                 depthPred )
 
