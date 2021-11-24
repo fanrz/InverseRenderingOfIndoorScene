@@ -260,9 +260,15 @@ for epoch in list(range(opt.nepochBRDF, opt.nepochBRDF + opt.nepoch) ):
                 normalPreBatch, roughPreBatch, depthPreBatch,
                 diffusePreBatch, specularPreBatch ], dim=1)
         
+        
+        
+        # **************
         # the begining of network
         # Initial Prediction
+        # **************
         x1, x2, x3, x4, x5, x6 = encoder(inputBatch )
+
+
 
         albedoPred = 0.5 * (albedoDecoder(imBatch, x1, x2, x3, x4, x5, x6) + 1)
         albedoBsPred, albedoConf = albedoBs(imBatch, albedoPred.detach(),
